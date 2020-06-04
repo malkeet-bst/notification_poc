@@ -11,6 +11,7 @@
         android:label="notification"
         android:icon="@mipmap/ic_launcher">
         <service android:name=".MyService" android:exported="true" android:enabled="true"/>
+<!--        <service android:name=".NotificationActions" android:exported="true" android:enabled="true"/>-->
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"  
@@ -40,6 +41,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".NotificationActions" />
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <!-- <meta-data

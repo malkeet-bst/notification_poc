@@ -25,7 +25,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   static const platform =
-      const MethodChannel('flutter.rortega.com.basicchannelcommunication');
+      const MethodChannel('com.example.notification.messages');
   final String title;
 
   _MyHomePageState({Key key, this.title}) : super() {
@@ -47,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
     switch (call.method) {
       case "message":
         debugPrint(call.arguments);
+        debugPrint("call.arguments");
         return new Future.value("");
     }
   }

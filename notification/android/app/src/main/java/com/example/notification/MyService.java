@@ -12,6 +12,8 @@ import io.flutter.embedding.engine.FlutterEngine;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import java.io.Serializable;
+
 public class MyService extends Service {
 
     private static FlutterEngine flutterEngine;
@@ -20,10 +22,7 @@ public class MyService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Intent snoozeIntent = new Intent(this, MyService.class);
-        snoozeIntent.setAction("ACTION_SNOOZE");
-        snoozeIntent.putExtra("EXTRA_NOTIFICATION_ID", 0);
-        PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(this, 0, snoozeIntent, 0);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // NotificationCompat.Builder builder = new
             // NotificationCompat.Builder(this,"messages")
@@ -47,15 +46,28 @@ public class MyService extends Service {
             // MethodChannel(flutterView,
             // "flutter.rortega.com.basicchannelcommunication").invokeMethod("message",
             // "Hello from native host");
-            // Intent intent = new Intent(this, MyService.class);
-            // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            // PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+            Intent intent=new Intent(this,NotificationActions.class);
+            PendingIntent pendingIntent=PendingIntent.getActivity(
+                    this,
+                    101,
+                    intent,
+                    PendingIntent.FLAG_CANCEL_CURRENT
+            );
+
+//            Person person = new Person();
+//            person.setName("david hackro");
+//            person.setAge(10);
+//
+//            Intent notificationIntent = new Intent(this, Person1.class);
+//            notificationIntent.putExtra("person",person);
+//            notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "messages")
                     .setSmallIcon(R.drawable.ic_android_black_24dp).setContentTitle("My notification")
-                    .setContentText("Hello MSD!").setAutoCancel(true);
-                    // .setContentIntent(pendingIntent)
-//                    .addAction(R.drawable.ic_snooze, "Exit", snoozePendingIntent)
-//                    .setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0));
+                    .setContentText("Hello MSD!").setAutoCancel(true)
+                    .setContentIntent(pendingIntent)
+                   .addAction(R.drawable.ic_snooze, "Exit", pendingIntent)
+                   .setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0));
 
             startForeground(101, builder.build());
         }
