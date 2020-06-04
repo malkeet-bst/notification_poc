@@ -24,8 +24,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static const platform =
-      const MethodChannel('com.example.notification.messages');
+  static const platform = const MethodChannel('MethodChannelPlugin');
   final String title;
 
   _MyHomePageState({Key key, this.title}) : super() {
