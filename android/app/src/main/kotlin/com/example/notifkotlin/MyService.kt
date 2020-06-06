@@ -6,23 +6,56 @@ import android.content.ComponentName
 import android.content.Intent
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import com.example.notifkotlin.MainActivity
-import com.example.notifkotlin.R
 import io.flutter.embedding.android.FlutterView
 import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.embedding.engine.dart.DartExecutor.DartEntrypoint
+import io.flutter.embedding.engine.dart.DartExecutor.DartEntrypoint.createDefault
 import io.flutter.plugin.common.MethodChannel
+import io.flutter.plugins.GeneratedPluginRegistrant
 
 
 class MyService : Service() {
     private val flutterView: FlutterView? = null
-
+//private val flutterEngine:FlutterEngine(this)?=null
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+
+        val flutterEngine =  FlutterEngine(this.applicationContext)
+//        GeneratedPluginRegistrant.registerWith(flutterEngine);
+//        val channel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.example.notification.messages12")
+//
+////        val channel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.example.notification.messages")
+//        channel.invokeMethod("message","msd", object : MethodChannel.Result {
+//            override fun success(result: Any?) {
+//                println(result)
+//            }
+//
+//            override fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
+//                println(errorCode)
+//            }
+//
+//            override fun notImplemented() {
+//                println("Unrealized getPlatform Method")
+//            }
+//        })
         if (intent != null) {
             if(intent.action==Intent.ACTION_ANSWER){
                 println("exiting")
                 val flutterEngine =  FlutterEngine(this)
-                if (flutterEngine != null) {
-                    MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), "com.example.notification.messages").invokeMethod("message","msd");
+                // Instantiate a FlutterEngine.
+                // Instantiate a FlutterEngine.
+                val engine = FlutterEngine(this)
+
+// Define a DartEntrypoint
+
+// Define a DartEntrypoint
+                val entrypoint: DartEntrypoint = createDefault()
+
+// Execute the DartEntrypoint within the FlutterEngine.
+
+// Execute the DartEntrypoint within the FlutterEngine.
+                engine.dartExecutor.executeDartEntrypoint(entrypoint)
+                if (engine != null) {
+                    MethodChannel(engine.getDartExecutor().getBinaryMessenger(), "com.example.notification.messages").invokeMethod("message","msd");
                     MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.example.notification.messages")
 //                    flutterEngine.platformChannel.channel
 //                            .invokeMethod("message","msd")
@@ -34,7 +67,7 @@ class MyService : Service() {
                 val intent = Intent(this, MyService::class.java)
                 intent.setAction(Intent.ACTION_ANSWER)
 //        intent.action = "Play"
-                val pendingIntent = PendingIntent.getService(
+                val pendingIntent = PendingIntent.getActivity(
                         this,
                         101,
                         intent,
