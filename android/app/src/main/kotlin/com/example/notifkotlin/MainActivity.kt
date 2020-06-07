@@ -2,25 +2,34 @@
 package com.example.notifkotlin
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
+import android.os.PersistableBundle
+import com.example.notifkotlin.MyService
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import com.example.notifkotlin.MyService
-import java.lang.reflect.Method
 
 // import io.flutter.app.FlutterActivity;
 
 
 class MainActivity : FlutterActivity() {
+
     private var forService: Intent? = null
+    var This: MainActivity? = null
+
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
+        This=this;
+    }
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        This=this;
         forService = Intent(this@MainActivity, MyService::class.java)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.example.notification.messages")
                 .setMethodCallHandler { call: MethodCall, result: MethodChannel.Result ->
                     if (call.method == "startService") {
-                        MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), "com.example.notification.messages").invokeMethod("message","msd");
+                        MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), "com.example.notification.messages2").invokeMethod("message","msd");
                         //               new MethodChannel(getFlutterView(), "com.example.notification.messages1").invokeMethod("message",null);
                         startService()
                         val bar = call.argument<String>("bar") // .argument returns the correct type

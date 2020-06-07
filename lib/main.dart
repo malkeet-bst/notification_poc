@@ -26,9 +26,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   static const platform =
       const MethodChannel('com.example.notification.messages');
+
   final String title;
 
   _MyHomePageState({Key key, this.title}) : super() {
+    WidgetsFlutterBinding.ensureInitialized();
     platform.setMethodCallHandler(_handleMethod);
   }
   void startServiceInPlatform() async {

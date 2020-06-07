@@ -11,6 +11,7 @@ import com.example.notifkotlin.R
 import io.flutter.embedding.android.FlutterView
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
+import io.flutter.plugins.GeneratedPluginRegistrant
 
 
 class MyService : Service() {
@@ -18,6 +19,24 @@ class MyService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent != null) {
+            val flutterEngine =  FlutterEngine(this.applicationContext)
+        GeneratedPluginRegistrant.registerWith(flutterEngine);
+     //   val channel = MethodChannel(MainActivity.This.getFlutterView(), "com.example.notification.messages")
+
+//        val channel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.example.notification.messages")
+//        channel.invokeMethod("message","msd", object : MethodChannel.Result {
+//            override fun success(result: Any?) {
+//                println(result)
+//            }
+//
+//            override fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
+//                println(errorCode)
+//            }
+//
+//            override fun notImplemented() {
+//                println("Unrealized getPlatform Method")
+//            }
+//        })
             if(intent.action==Intent.ACTION_ANSWER){
                 println("exiting")
                 val flutterEngine =  FlutterEngine(this)
