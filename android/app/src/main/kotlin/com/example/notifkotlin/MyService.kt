@@ -21,28 +21,28 @@ class MyService : Service() {
         if (intent != null) {
             val flutterEngine =  FlutterEngine(this.applicationContext)
         GeneratedPluginRegistrant.registerWith(flutterEngine);
-     //   val channel = MethodChannel(MainActivity.This.getFlutterView(), "com.example.notification.messages")
+        val channel = MethodChannel(MainActivity.messenger1, "com.example.notification.messages")
 
-//        val channel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.example.notification.messages")
-//        channel.invokeMethod("message","msd", object : MethodChannel.Result {
-//            override fun success(result: Any?) {
-//                println(result)
-//            }
-//
-//            override fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
-//                println(errorCode)
-//            }
-//
-//            override fun notImplemented() {
-//                println("Unrealized getPlatform Method")
-//            }
-//        })
             if(intent.action==Intent.ACTION_ANSWER){
                 println("exiting")
                 val flutterEngine =  FlutterEngine(this)
                 if (flutterEngine != null) {
-                    MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), "com.example.notification.messages").invokeMethod("message","msd");
-                    MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.example.notification.messages")
+
+                    channel.invokeMethod("message","msd", object : MethodChannel.Result {
+                        override fun success(result: Any?) {
+                            println(result)
+                        }
+
+                        override fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
+                            println(errorCode)
+                        }
+
+                        override fun notImplemented() {
+                            println("Unrealized getPlatform Method")
+                        }
+                    })
+//                    MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), "com.example.notification.messages").invokeMethod("message","msd");
+//                    MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.example.notification.messages")
 //                    flutterEngine.platformChannel.channel
 //                            .invokeMethod("message","msd")
                 };
